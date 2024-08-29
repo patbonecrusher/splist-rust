@@ -34,12 +34,12 @@ fn get_port_by_sn(sn: String) {
                     #[cfg(target_os = "macos")]
                     if port.port_name.starts_with("/dev/cu") {
                         println!("{}", port.port_name);
-                        return;
                     }
                     #[cfg(target_os = "linux")]
                     println!("{}", port.port_name);
                     #[cfg(not(target_os = "linux"))]
                     println!("Unsupported operating system");
+                    return;
                 }
             }
             _ => {}
