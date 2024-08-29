@@ -17,6 +17,10 @@ jobs:
   test:
     name: ${{ matrix.platform.os_name }} with rust ${{ matrix.toolchain }}
     runs-on: ${{ matrix.platform.os }}
+    permissions:
+        contents: write
+        pull-requests: write
+        repository-projects: write
     strategy:
       fail-fast: false
       matrix:
