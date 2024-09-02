@@ -10,5 +10,5 @@ serialport = "4.5.0"
 
 [package.metadata.cross.target.aarch64-unknown-linux-gnu]
 pre-build = [
-    "sudo apt install libudev1 libudev-dev --yes"
+    "apt-get install libudev1 libudev-dev --yes"
 ]
