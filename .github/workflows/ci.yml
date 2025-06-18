@@ -38,11 +38,10 @@ jobs:
       if: matrix.target != 'aarch64-unknown-linux-gnu'
       run: cargo test --verbose --target ${{ matrix.target }}
 
-    - name: Create Release
-      if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - name: Publish artifacts and release
+      uses: houseabsolute/actions-rust-release@v0
       with:
-        tag_name: v${{ github.run_number }}
-        release_name: Release v${{ github.run_number }}
+        executable-name: splistgo
+        target: ${{ matrix.platform.target }}
+        action-gh-release-parameters: '{ "make_latest": false }'
+      if: matrix.toolchain == 'stable' && matrix.platform.features == ''
