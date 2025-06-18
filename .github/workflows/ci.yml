@@ -1,10 +1,14 @@
 name: CI
-
 on:
   push:
     branches: [ develop ]
   pull_request:
     branches: [ develop ]
+
+env:
+  CRATE_NAME: splistg
+  GITHUB_TOKEN: ${{ github.token }}
+  RUST_BACKTRACE: 1
 
 jobs:
   build:
@@ -38,3 +42,14 @@ jobs:
     - name: Run tests
       if: matrix.target != 'aarch64-unknown-linux-gnu'
       run: cargo test --verbose --target ${{ matrix.target }}
+
+    - name: Create Release
+      if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+      uses: actions/create-release@v1
+      env:
+      GITHUB_TOKEN: ${{ github.token }}
+      with:
+      tag_name: v${{ github.run_number }}
+      release_name: Release v${{ github.run_number }}
+      draft: false
+      prerelease: false
