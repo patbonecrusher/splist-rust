@@ -1,12 +1,6 @@
 name: Tests and release
 
-on:
-  push:
-    branches:
-      - "**"
-    tags-ignore:
-      - "splist-rust-*"
-  pull_request:
+on: [push, pull_request]
 
 env:
   CRATE_NAME: splist
@@ -16,7 +10,7 @@ env:
 jobs:
   test:
     name: ${{ matrix.platform.os_name }} with rust ${{ matrix.toolchain }}
-    runs-on: ${{ matrix.platform.os }}
+    runs-on: ${{ matrix.platform.runs-on }}
     permissions:
         contents: write
         pull-requests: write
@@ -25,15 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          # Platforms that don't work:
-          #
-          # - sparc64-unknown-linux-gnu - cannot compile openssl-sys
-          # - x86_64-unknown-illumos - weird error compiling openssl - "bin/sh: 1: granlib: not found"
-        #   - os_name: Linux-x86_64
-        #     os: ubuntu-20.04
-        #     target: x86_64-unknown-linux-musl
-        #     bin: splist-rs
-        #     name: splist-rs-Linux-x86_64-musl.tar.gz
           - os_name: Linux-aarch64-Gnu
             os: ubuntu-20.04
             target: aarch64-unknown-linux-gnu
@@ -77,11 +62,11 @@ jobs:
         #     target: x86_64-apple-darwin
         #     bin: splist-rs
         #     name: splist-rs-Darwin-x86_64.tar.gz
-        #   - os_name: macOS-aarch64
-        #     os: macOS-latest
-        #     target: aarch64-apple-darwin
-        #     bin: splist-rs
-        #     name: splist-rs-Darwin-aarch64.tar.gz
+          - os_name: macOS-aarch64
+            os: macOS-latest
+            target: aarch64-apple-darwin
+            bin: splist-rs
+            name: splist-rs-Darwin-aarch64.tar.gz
         toolchain:
           - stable
         #   - beta
