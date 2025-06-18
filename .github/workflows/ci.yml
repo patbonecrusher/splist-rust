@@ -38,10 +38,17 @@ jobs:
       if: matrix.target != 'aarch64-unknown-linux-gnu'
       run: cargo test --verbose --target ${{ matrix.target }}
 
+    # - name: Publish artifacts and release
+    #   uses: houseabsolute/actions-rust-release@v0
+    #   with:
+    #     executable-name: splist
+    #     target: ${{ matrix.platform.target }}
+    #     action-gh-release-parameters: '{ "make_latest": false }'
+    #   if: matrix.toolchain == 'stable' && matrix.platform.features == ''
+
     - name: Publish artifacts and release
       uses: houseabsolute/actions-rust-release@v0
       with:
-        executable-name: splistgo
+        executable-name: splist
         target: ${{ matrix.platform.target }}
-        action-gh-release-parameters: '{ "make_latest": false }'
-      if: matrix.toolchain == 'stable' && matrix.platform.features == ''
+      if: matrix.toolchain == 'stable'
